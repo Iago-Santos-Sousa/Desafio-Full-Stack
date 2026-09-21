@@ -37,7 +37,21 @@ Java usa JPA/Hibernate como ORM. Qualidade Java usa Spotless + Google Java Forma
 
 Requisito único: Docker Desktop com Compose v2.
 
-Clone esse repositório na sua máquina. Entre no diretório do projeto e execute os comandos abaixo:
+Garnta que nenhuma porta dos serviços(front-end, back-end, RabbitMQ e PostgreSQL) esteja ocupada ao subir o comando.
+
+Para garantir ainda mais, exclua imagens, containers e volumes de testes anteriores do RabbitMQ e PostgreSQL para não ter erros.
+
+Clone esse repositório na sua máquina:
+
+```bash
+git clone https://github.com/Iago-Santos-Sousa/Desafio-Full-Stack.git
+```
+
+Entre no diretório do projeto e execute os comandos abaixo:
+
+```bash
+cd Desafio-Full-Stack
+```
 
 Fica a seu criterio customizar sua .env. O docker-compose.yaml já usa variáveis de ambiente default nas imagens dos serviços
 
@@ -48,13 +62,21 @@ copy .env.example .env
 docker compose up --build
 ```
 
+Subir com .env.example:
+
+```bash
+docker compose --env-file .env.example up --build
+```
+
 Para subir containers já existentes:
 
 ```bash
 docker compose up
 ```
 
-**Observação:**: Caso queira criar seu próprio .env, use o .env.example como exemplo
+**Observação 01:** O primeiro build das imagens e containers demora um pouquinho. Quando terminar, veja nos logs do terminal se está tudo ok.
+
+**Observação 02:** Caso queira criar seu próprio .env, use o .env.example como exemplo
 
 `.env` na raiz alimenta Compose. Para execução direta, backend aceita `back-end/.env` opcional e Vite aceita `front-end/.env`; copie os respectivos `.env.example`. Variáveis `VITE_*` são públicas e entram no bundle.
 
