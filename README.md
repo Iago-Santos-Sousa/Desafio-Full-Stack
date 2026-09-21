@@ -37,10 +37,16 @@ Java usa JPA/Hibernate como ORM. Qualidade Java usa Spotless + Google Java Forma
 
 Requisito único: Docker Desktop com Compose v2.
 
-Clone esse repositório na sua máquina. Entre no diretório do projeto e execute os comandos abaixo:
+Clone esse repositório na sua máquina:
 
 ```bash
 git clone https://github.com/Iago-Santos-Sousa/Desafio-Full-Stack.git
+cd Desafio-Full-Stack
+```
+
+Entre no diretório do projeto e execute os comandos abaixo:
+
+```bash
 cd Desafio-Full-Stack
 ```
 
