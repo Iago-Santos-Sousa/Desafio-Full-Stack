@@ -58,6 +58,12 @@ copy .env.example .env
 docker compose up --build
 ```
 
+Subir com .env.example:
+
+```bash
+docker compose --env-file .env.example up --build
+```
+
 Para subir containers já existentes:
 
 ```bash
