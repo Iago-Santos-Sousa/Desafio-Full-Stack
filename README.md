@@ -70,7 +70,9 @@ Para subir containers já existentes:
 docker compose up
 ```
 
-**Observação:**: Caso queira criar seu próprio .env, use o .env.example como exemplo
+**Observação 01:** O primeiro build das imagens e containers demora um pouquinho. Quando terminar, veja nos logs do terminal se está tudo ok.
+
+**Observação 02:** Caso queira criar seu próprio .env, use o .env.example como exemplo
 
 `.env` na raiz alimenta Compose. Para execução direta, backend aceita `back-end/.env` opcional e Vite aceita `front-end/.env`; copie os respectivos `.env.example`. Variáveis `VITE_*` são públicas e entram no bundle.
 
