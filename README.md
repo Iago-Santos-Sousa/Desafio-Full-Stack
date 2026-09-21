@@ -37,9 +37,21 @@ Java usa JPA/Hibernate como ORM. Qualidade Java usa Spotless + Google Java Forma
 
 Requisito único: Docker Desktop com Compose v2.
 
+Clone esse repositório na sua máquina. Entre no diretório do projeto e execute os comandos abaixo:
+
+Fica a seu criterio customizar sua .env. O docker-compose.yaml já usa variáveis de ambiente default nas imagens dos serviços
+
+Para construir ou reconstruir as imagens e os containers do zero:
+
 ```bash
 copy .env.example .env
 docker compose up --build
+```
+
+Para subir containers já existentes:
+
+```bash
+docker compose up
 ```
 
 **Observação:**: Caso queira criar seu próprio .env, use o .env.example como exemplo

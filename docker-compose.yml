@@ -1,0 +1,84 @@
+services:
+  postgres:
+    container_name: datapulse-postgres
+    image: postgres:17.6-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-large_data}
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me-local}
+    ports: ["5432:5432"]
+    volumes: [postgres-data:/var/lib/postgresql/data]
+    healthcheck:
+      {
+        test:
+          ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"],
+        interval: 5s,
+        timeout: 5s,
+        retries: 10,
+      }
+  rabbitmq:
+    container_name: datapulse-rabbitmq
+    image: rabbitmq:4.1.4-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER:-app}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS:-change-me-local}
+    ports: ["5672:5672", "15672:15672"]
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro
+      - ./rabbitmq/init-policy.sh:/etc/rabbitmq/init-policy.sh:ro
+    command: ["sh", "/etc/rabbitmq/init-policy.sh"]
+    healthcheck:
+      {
+        test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"],
+        interval: 5s,
+        timeout: 5s,
+        retries: 10,
+      }
+  back-end:
+    container_name: datapulse-api
+    build: ./back-end
+    environment:
+      SERVER_PORT: ${SERVER_PORT:-8080}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-large_data}?reWriteBatchedInserts=true
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-app}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-change-me-local}
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_DEFAULT_USER:-app}
+      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_DEFAULT_PASS:-change-me-local}
+      MAX_FILE_SIZE: ${MAX_FILE_SIZE:-2GB}
+      MAX_REQUEST_SIZE: ${MAX_REQUEST_SIZE:-2056MB}
+      UPLOAD_DIR: /data/uploads
+      APP_BUSINESS_TIME_ZONE: ${APP_BUSINESS_TIME_ZONE:-America/Sao_Paulo}
+      APP_CORS_ALLOWED_ORIGIN: ${APP_CORS_ALLOWED_ORIGIN:-http://localhost:5173}
+      SERVER_COMPRESSION_ENABLED: ${SERVER_COMPRESSION_ENABLED:-true}
+      SERVER_COMPRESSION_MIN_RESPONSE_SIZE: ${SERVER_COMPRESSION_MIN_RESPONSE_SIZE:-2KB}
+    mem_limit: ${BACKEND_MEMORY_LIMIT:-2g}
+    ports: ["${BACKEND_PORT:-8080}:${SERVER_PORT:-8080}"]
+    volumes: [uploads-data:/data/uploads]
+    depends_on:
+      {
+        postgres: { condition: service_healthy },
+        rabbitmq: { condition: service_healthy },
+      }
+  front-end:
+    container_name: datapulse-web
+    build:
+      context: ./front-end
+      args:
+        VITE_MAX_UPLOAD_BYTES: ${VITE_MAX_UPLOAD_BYTES:-2147483648}
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:8080}
+    ports: ["${FRONTEND_PORT:-5173}:80"]
+    depends_on: [back-end]
+  csv-generator:
+    container_name: datapulse-csv-generator
+    image: node:22.23.1-alpine
+    profiles: [tools]
+    working_dir: /tool
+    volumes: [./scripts:/tool, ./csv_tests:/data]
+    entrypoint: ["node", "generate-csv.mjs"]
+volumes:
+  postgres-data:
+  rabbitmq-data:
+  uploads-data:

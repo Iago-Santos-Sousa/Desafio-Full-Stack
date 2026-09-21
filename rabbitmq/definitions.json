@@ -1,0 +1,15 @@
+{
+  "policies": [
+    {
+      "vhost": "/",
+      "name": "ingestion-queue-cap",
+      "pattern": "^ingestion\\.jobs$",
+      "apply-to": "queues",
+      "definition": {
+        "max-length": 5,
+        "overflow": "reject-publish"
+      },
+      "priority": 10
+    }
+  ]
+}
