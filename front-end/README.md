@@ -1,6 +1,6 @@
 # Front-end
 
-Visão geral da solução e execução conjunta estão em [../README.md](../README.md). Este documento detalha desenvolvimento e responsabilidades do módulo web.
+Visão geral da solução e execução conjunta estão em [../README.md](../README.md). Este documento detalha desenvolvimento e responsabilidades do módulo web - front-end.
 
 React 19 + Vite + TypeScript 6. React Router gerencia navegação; TanStack Query gerencia estado remoto e polling; Axios encapsula API; MUI fornece componentes e tema; Tailwind CSS v4 fornece utilitários de layout.
 
