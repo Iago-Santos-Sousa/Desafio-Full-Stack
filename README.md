@@ -39,6 +39,11 @@ Requisito único: Docker Desktop com Compose v2.
 
 Clone esse repositório na sua máquina. Entre no diretório do projeto e execute os comandos abaixo:
 
+```bash
+git clone https://github.com/Iago-Santos-Sousa/Desafio-Full-Stack.git
+cd Desafio-Full-Stack
+```
+
 Fica a seu criterio customizar sua .env. O docker-compose.yaml já usa variáveis de ambiente default nas imagens dos serviços
 
 Para construir ou reconstruir as imagens e os containers do zero:
