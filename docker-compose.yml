@@ -28,7 +28,7 @@ services:
       - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
       - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro
       - ./rabbitmq/init-policy.sh:/etc/rabbitmq/init-policy.sh:ro
-    command: ["sh", "/etc/rabbitmq/init-policy.sh"]
+    command: ["sh", "-c", "tr -d '\\r' < /etc/rabbitmq/init-policy.sh | sh"]
     healthcheck:
       {
         test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"],
