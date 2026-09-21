@@ -1,0 +1,6 @@
+occurred_at,category,amount,description
+2025-01-01T00:00:00.000Z,food,1.00,Synthetic transaction 1
+2026-02-02T01:01:00.000Z,transport,1.01,Synthetic transaction 2
+2025-03-03T02:02:00.000Z,health,1.02,Synthetic transaction 3
+2026-04-04T03:03:00.000Z,utilities,1.03,Synthetic transaction 4
+2025-05-05T04:04:00.000Z,food,1.04,Synthetic transaction 5
