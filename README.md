@@ -37,6 +37,10 @@ Java usa JPA/Hibernate como ORM. Qualidade Java usa Spotless + Google Java Forma
 
 Requisito único: Docker Desktop com Compose v2.
 
+Garnta que nenhuma porta dos serviços(front-end, back-end, RabbitMQ e PostgreSQL) esteja ocupada ao subir o comando.
+
+Para garantir ainda mais, exclua imagens, containers e volumes de testes anteriores do RabbitMQ e PostgreSQL para não ter erros.
+
 Clone esse repositório na sua máquina:
 
 ```bash
